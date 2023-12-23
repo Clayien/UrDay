@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@clayien/tailwind':
-    specifier: 0.0.41-alpha
-    version: 0.0.41-alpha
+    specifier: ^0.0.2
+    version: 0.0.2
   autoprefixer:
     specifier: ^10.4.16
     version: 10.4.16(postcss@8.4.32)
@@ -85,8 +85,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: true
 
-  /@clayien/tailwind@0.0.41-alpha:
-    resolution: {integrity: sha512-h655yzuI5SPsvDOKncrmMv3B8di2PrsDglqU0BLF/pkuFh9zbE9pL0C+tltPdqVEl1j2gTqxftB37WBBGRHuQw==}
+  /@clayien/tailwind@0.0.2:
+    resolution: {integrity: sha512-AGVjPPbk2DDJPkbSfgkR/zqc/Vw1rzxtl6DlwWeDpGNZXeuMks+824Ga/oETxFnExxHP5i4c2PKT/5y26b2jUQ==}
     dependencies:
       tailwindcss: 3.4.0
     transitivePeerDependencies:
