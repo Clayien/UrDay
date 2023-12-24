@@ -1,39 +1,40 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	export let value: string;
-	export let done: boolean;
 
 	import IconClose from './icon/IconClose.svelte';
+	import type { TodoData } from '../types';
+	import Input from './Input.svelte';
+
+	export let todo: TodoData;
 
 	const dispatch = createEventDispatcher();
 </script>
 
 <div class="flex h-14 w-full items-center gap-[1px] rounded-lg border border-clayien-black-light">
-	<button class="flex aspect-square h-full w-14 items-center justify-center text-clayien-red">
+	<button
+		class="flex aspect-square h-full w-14 items-center justify-center border-r border-clayien-black-light text-clayien-red"
+	>
 		<IconClose />
 	</button>
 
-	<input
-		type="text"
-		name="todo"
-		bind:value
+	<Input
+		bind:value={todo.task}
 		on:change={() => {
-			dispatch('change', value);
-			if (done) {
-				done = false;
+			dispatch('change', todo.task);
+			if (todo.done) {
+				todo.done = false;
 			}
 		}}
-		class="h-full w-full grow border-x border-clayien-black-light bg-clayien-black px-4"
 	/>
 
 	<button
-		class="flex aspect-square h-full w-14 items-center justify-center p-4"
+		class="flex aspect-square h-full w-14 items-center justify-center border-l border-clayien-black-light p-4"
 		on:click={() => {
-			done = !done;
+			todo.done = !todo.done;
 		}}
 	>
 		<div class="h-full w-full rounded border border-clayien-gray p-1">
-			{#if done}
+			{#if todo.done}
 				<div class="h-full w-full rounded-sm bg-clayien-green" />
 			{/if}
 		</div>

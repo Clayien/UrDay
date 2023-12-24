@@ -2,13 +2,12 @@
 	import { fade, slide } from 'svelte/transition';
 
 	import TodoItem from './TodoItem.svelte';
-	import IconArrowDown from './icon/IconArrowDown.svelte';
-	import IconArrowUp from './icon/IconArrowUp.svelte';
 	import IconClose from './icon/IconClose.svelte';
+	import ArrowButton from './ArrowButton.svelte';
+	import type { TodoListData } from '$lib/types';
+	import Input from './Input.svelte';
 
-	export let title = 'new list';
-	export let totalTask: number = 0;
-	export let totalCompleted: number = 0;
+	export let todoList: TodoListData;
 
 	let completedPercentage: number = 0;
 
@@ -17,9 +16,11 @@
 		open = !open;
 	}
 
-	let done = false;
+	let totalCompleted = 0;
 
-	$: completedPercentage = Math.round((totalCompleted / totalTask) * 100) || 0;
+	$: totalCompleted = todoList.tasks.filter((task) => task.done).length;
+
+	$: completedPercentage = Math.round((totalCompleted / todoList.tasks.length) * 100) || 0;
 	$: completedColor =
 		completedPercentage > 70
 			? 'text-clayien-green'
@@ -36,33 +37,26 @@
 				on:click={handleClick}
 				in:fade
 			>
-				<span class="capitalize">{title}</span>
+				<span class="capitalize">{todoList.name}</span>
 				<div class="text-xs uppercase text-clayien-gray">
 					completed: <span class={completedColor}>{completedPercentage} %</span> | ({totalCompleted}/{totalCompleted})
 				</div>
 			</button>
 		{:else}
 			<button
-				class="flex aspect-square h-16 w-16 items-center justify-center border-r border-clayien-black-light p-4 text-clayien-red"
+				class="flex aspect-square h-16 w-16 items-center justify-center border-r border-clayien-black-light text-clayien-red"
 				on:click={handleClick}
 				in:fade
 			>
 				<IconClose />
 			</button>
-			<input
-				in:fade
-				value={title}
-				class="h-full w-full grow bg-clayien-black p-4 px-4 capitalize"
-			/>
-		{/if}
-		<button
-			class="flex aspect-square h-16 w-16 items-center justify-center border-l border-clayien-black-light p-4"
-			on:click={handleClick}
-		>
-			<div class="transition-transform" class:rotate-180={open}>
-				<IconArrowDown />
+			<div in:fade class="h-full w-full">
+				<Input value={todoList.name} />
 			</div>
-		</button>
+		{/if}
+		<div class="h-16 w-16 border-l border-clayien-black-light">
+			<ArrowButton bind:open />
+		</div>
 	</div>
 
 	{#if open}
@@ -75,7 +69,7 @@
 				</div>
 			</div>
 			<div>
-				<TodoItem value="" bind:done />
+				<TodoItem todo={{ task: '', done: false }} />
 			</div>
 		</div>
 	{/if}
